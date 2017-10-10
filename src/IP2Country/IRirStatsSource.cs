@@ -8,7 +8,7 @@ namespace IP2Country
     {
         String Name { get; }
         Guid Id { get; }
-        bool Update();
+        bool TryUpdate(out string version);
         IEnumerable<RirStatsListDto> GetRirStats();
     }
 }

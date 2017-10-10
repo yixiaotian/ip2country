@@ -156,6 +156,7 @@
     <Compile Include="BackgroundWorkers\UpdateRirStatsSourceWorker.cs" />
     <Compile Include="Dependency\IP2CountryConventionalRegistrar.cs" />
     <Compile Include="Dto\RirStatsListDto.cs" />
+    <Compile Include="Events\RirStatsSourceUpdatedEventData.cs" />
     <Compile Include="Extensions\GuidExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IP2CountryModule.cs" />

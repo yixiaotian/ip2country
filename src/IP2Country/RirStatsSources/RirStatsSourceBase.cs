@@ -17,7 +17,7 @@ namespace IP2Country.RirStatsSources
         public abstract string Name { get; }
         public virtual Guid Id => Url.AsGuid();
 
-        public bool Update()
+        public bool TryUpdate(out string version)
         {
             var local = GetPath();
             var localHash = string.Empty;
@@ -40,6 +40,7 @@ namespace IP2Country.RirStatsSources
                     {
                         http.DownloadFile(Url, tmp);
                         File.Copy(tmp, local, true);
+                        version = remoteHash;
                         return true;
                     }
                     finally
@@ -48,6 +49,7 @@ namespace IP2Country.RirStatsSources
                     }
                 }
             }
+            version = localHash;
             return false;
         }
 
