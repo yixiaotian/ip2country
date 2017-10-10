@@ -153,6 +153,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundWorkers\UpdateRirStatsSourceWorker.cs" />
+    <Compile Include="Dependency\IP2CountryConventionalRegistrar.cs" />
     <Compile Include="Dto\RirStatsListDto.cs" />
     <Compile Include="Extensions\GuidExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -178,8 +180,6 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BackgroundWorkers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

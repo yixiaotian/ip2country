@@ -5,18 +5,17 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using Abp.Dependency;
 using IP2Country.Dto;
 using IP2Country.Extensions;
 
 namespace IP2Country.RirStatsSources
 {
-    public abstract class RirStatsSourceBase : ISingletonDependency, IRirStatsSource
+    public abstract class RirStatsSourceBase : IRirStatsSource
     {
         private readonly Regex _hashRegex = new Regex("([0-9a-z]{32})");
+        public abstract string Url { get; }
         public abstract string Name { get; }
         public virtual Guid Id => Url.AsGuid();
-        public abstract string Url { get; }
 
         public bool Update()
         {
