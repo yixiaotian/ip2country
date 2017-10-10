@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using IP2Country.Dto;
 using IP2Country.Extensions;
+using IP2Country.Net;
 
 namespace IP2Country.RirStatsSources
 {
@@ -75,13 +76,16 @@ namespace IP2Country.RirStatsSources
                                     {
                                         var item = new RirStatsListDto
                                         {
+                                            Raw = line,
                                             Registry = arr[0],
                                             Country = arr[1],
                                             Type = arr[2],
                                             Start = arr[3],
                                             Value = arr[4],
                                             Date = arr[5],
-                                            Status = arr[6]
+                                            Status = arr[6],
+                                            BeginIPAddress = IPAddress.Parse(arr[3]),
+                                            EndIPAddress = IPAddress.Parse(arr[3]).Add(Convert.ToInt32(arr[4]) - 1)
                                         };
                                         yield return item;
                                     }

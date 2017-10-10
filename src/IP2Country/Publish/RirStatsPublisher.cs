@@ -2,8 +2,8 @@
 using System.Linq;
 using Abp.Dependency;
 using Abp.Events.Bus.Handlers;
-using IP2Country.Dto;
 using IP2Country.Events;
+using IP2Country.Net;
 
 namespace IP2Country.Publish
 {
@@ -18,11 +18,11 @@ namespace IP2Country.Publish
 
         public void HandleEvent(RirStatsSourceUpdatedEventData eventData)
         {
-            var items = new List<RirStatsListDto>();
-            foreach (var source in _rirStatsSources)
-            {
-                items.AddRange(source.GetRirStats());
-            }
+            var items = _rirStatsSources
+                .SelectMany(i => i.GetRirStats())
+                .OrderBy(i => i.BeginIPAddress, new IPAddressComparer())
+                .ToList();
+
         }
     }
 }
