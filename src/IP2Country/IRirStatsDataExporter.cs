@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using IP2Country.Dto;
 
-namespace IP2Country.Publish
+namespace IP2Country
 {
     public interface IRirStatsDataExporter
     {

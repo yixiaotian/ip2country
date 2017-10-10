@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Castle.Core.Logging;
 using IP2Country.Dto;
 using IP2Country.Extensions;
 using IP2Country.Net;
@@ -14,18 +15,21 @@ namespace IP2Country.RirStatsSources
     public abstract class RirStatsSourceBase : IRirStatsSource
     {
         private readonly Regex _hashRegex = new Regex("([0-9a-z]{32})");
+        public ILogger Logger { get; set; } = NullLogger.Instance;
         public abstract string Url { get; }
         public abstract string Name { get; }
         public virtual Guid Id => Url.AsGuid();
 
         public bool TryUpdate(out string version)
         {
+            Logger.Debug("TryUpdate");
             var local = GetPath();
             var localHash = string.Empty;
             var remoteHash = string.Empty;
             if (File.Exists(local))
             {
                 localHash = GetHash(local);
+                Logger.DebugFormat("Local file hash : {0} .", localHash);
             }
             using (var http = new WebClient())
             {
@@ -33,16 +37,27 @@ namespace IP2Country.RirStatsSources
                 if (_hashRegex.IsMatch(str))
                 {
                     remoteHash = _hashRegex.Match(str).Groups[1].Value;
+                    Logger.DebugFormat("Remote file hash : {0} .", remoteHash);
                 }
                 if (!string.IsNullOrWhiteSpace(remoteHash) && remoteHash != localHash)
                 {
                     var tmp = Path.GetTempFileName();
                     try
                     {
+                        Logger.InfoFormat("Begin update to : {0}", remoteHash);
                         http.DownloadFile(Url, tmp);
-                        File.Copy(tmp, local, true);
-                        version = remoteHash;
-                        return true;
+                        var tmpHash = GetHash(tmp);
+                        if (tmpHash == remoteHash)
+                        {
+                            File.Copy(tmp, local, true);
+                            version = remoteHash;
+                            Logger.Info("Update success");
+                            return true;
+                        }
+                        else
+                        {
+                            Logger.WarnFormat("Update error,need hash {0} ,get hash {1} .", remoteHash, tmpHash);
+                        }
                     }
                     finally
                     {

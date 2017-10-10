@@ -4,7 +4,7 @@ using System.Text;
 using IP2Country.Dto;
 using IP2Country.Net;
 
-namespace IP2Country.Publish
+namespace IP2Country.RirStatsDataExporters
 {
     public class CsvRirStatsDataExporter : IRirStatsDataExporter
     {

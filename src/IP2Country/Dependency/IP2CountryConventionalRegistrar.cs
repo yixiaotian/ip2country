@@ -1,6 +1,5 @@
 ﻿using Abp.Dependency;
 using Castle.MicroKernel.Registration;
-using IP2Country.Publish;
 
 namespace IP2Country.Dependency
 {
