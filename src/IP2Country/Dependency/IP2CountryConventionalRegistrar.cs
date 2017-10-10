@@ -1,5 +1,6 @@
 ﻿using Abp.Dependency;
 using Castle.MicroKernel.Registration;
+using IP2Country.Publish;
 
 namespace IP2Country.Dependency
 {
@@ -11,6 +12,14 @@ namespace IP2Country.Dependency
                 Classes.FromAssembly(context.Assembly)
                     .IncludeNonPublicTypes()
                     .BasedOn<IRirStatsSource>()
+                    .WithService.Self()
+                    .WithService.AllInterfaces()
+                    .LifestyleSingleton()
+            );
+            context.IocManager.IocContainer.Register(
+                Classes.FromAssembly(context.Assembly)
+                    .IncludeNonPublicTypes()
+                    .BasedOn<IRirStatsDataExporter>()
                     .WithService.Self()
                     .WithService.AllInterfaces()
                     .LifestyleSingleton()
