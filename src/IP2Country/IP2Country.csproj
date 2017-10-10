@@ -158,6 +158,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IP2CountryModule.cs" />
     <Compile Include="IRirStatsSource.cs" />
+    <Compile Include="Net\IPAddressComparer.cs" />
+    <Compile Include="Net\IPAddressExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RirStatsSources\AfrinicIPAddressSource.cs" />
