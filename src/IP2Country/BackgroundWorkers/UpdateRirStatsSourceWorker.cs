@@ -73,7 +73,9 @@ namespace IP2Country.BackgroundWorkers
                     File.WriteAllText(path, versions[source.Id]);
                 }
             }
+            Logger.Debug("Release Memory...");
             ReleaseMemory();
+            Logger.Debug("Work complated!");
         }
 
         /// <summary>设置进程的程序集大小，将部分物理内存占用转移到虚拟内存</summary>
