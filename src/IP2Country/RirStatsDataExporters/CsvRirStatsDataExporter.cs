@@ -17,7 +17,8 @@ namespace IP2Country.RirStatsDataExporters
             {
                 using (var sw = new StreamWriter(fs, Encoding.ASCII))
                 {
-                    sw.WriteLine("BeginIPAddress,EndIPAddress,BeginIPAddressCode,EndIPAddressCode,Value,Registry,Country,Date,Status");
+                    sw.WriteLine(
+                        "BeginIPAddress,EndIPAddress,BeginIPAddressCode,EndIPAddressCode,Value,Registry,Country,Date,Status");
                     foreach (var item in items)
                     {
                         sw.WriteLine(string.Join(

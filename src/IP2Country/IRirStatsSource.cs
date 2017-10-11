@@ -6,7 +6,7 @@ namespace IP2Country
 {
     public interface IRirStatsSource
     {
-        String Name { get; }
+        string Name { get; }
         Guid Id { get; }
         bool TryUpdate(out string version);
         IEnumerable<RirStatsListDto> GetRirStats();
