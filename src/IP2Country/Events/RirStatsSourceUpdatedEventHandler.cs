@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Abp;
 using Abp.Dependency;
+using Abp.Events.Bus;
 using Abp.Events.Bus.Handlers;
 using Castle.Core.Logging;
 using IP2Country.Extensions;
@@ -21,6 +22,8 @@ namespace IP2Country.Events
             _rirStatsSources = iocResolver.ResolveAll<IRirStatsSource>().ToList();
             _rirStatsDataExporters = iocResolver.ResolveAll<IRirStatsDataExporter>().ToList();
         }
+
+        public IEventBus EventBus { private get; set; } = NullEventBus.Instance;
 
         public ILogger Logger { get; set; } = NullLogger.Instance;
         public Guid Id => GetType().FullName.AsGuid();
@@ -60,6 +63,12 @@ namespace IP2Country.Events
                         );
                         File.Copy(tmp, dist, true);
                         File.Delete(tmp);
+                        var data = new RirStatsDataExportedEventData
+                        {
+                            Extension = exporter.Extension,
+                            Path = dist
+                        };
+                        EventBus.Trigger(data);
                     }
                 }
                 items.Clear();
