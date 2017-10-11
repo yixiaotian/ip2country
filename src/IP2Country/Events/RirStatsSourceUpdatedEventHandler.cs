@@ -62,6 +62,7 @@ namespace IP2Country.Events
                         File.Delete(tmp);
                     }
                 }
+                items.Clear();
             }
         }
     }

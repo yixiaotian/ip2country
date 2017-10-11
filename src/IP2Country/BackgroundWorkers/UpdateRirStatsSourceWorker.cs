@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Abp.Dependency;
 using Abp.Events.Bus;
 using Abp.Threading.BackgroundWorkers;
@@ -71,6 +73,32 @@ namespace IP2Country.BackgroundWorkers
                     File.WriteAllText(path, versions[source.Id]);
                 }
             }
+            ReleaseMemory();
+        }
+
+        /// <summary>设置进程的程序集大小，将部分物理内存占用转移到虚拟内存</summary>
+        /// <param name="pid">要设置的进程ID</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <returns></returns>
+        public static bool SetProcessWorkingSetSize(int pid, int min, int max)
+        {
+            var p = pid <= 0 ? Process.GetCurrentProcess() : Process.GetProcessById(pid);
+            return Win32Native.SetProcessWorkingSetSize(p.Handle, min, max);
+        }
+
+        /// <returns></returns>
+        public static bool ReleaseMemory()
+        {
+            GC.Collect();
+
+            return SetProcessWorkingSetSize(0, -1, -1);
+        }
+
+        private class Win32Native
+        {
+            [DllImport("kernel32.dll")]
+            internal static extern bool SetProcessWorkingSetSize(IntPtr proc, int min, int max);
         }
     }
 }
