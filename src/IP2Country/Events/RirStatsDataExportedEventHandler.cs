@@ -12,7 +12,7 @@ namespace IP2Country.Events
         {
             var dir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dist");
             DirectoryHelper.CreateIfNotExists(dir);
-            var path = $"latest{eventData.Extension}";
+            var path = Path.Combine(dir, $"latest{eventData.Extension}");
             File.Copy(eventData.Path, path, true);
         }
     }
