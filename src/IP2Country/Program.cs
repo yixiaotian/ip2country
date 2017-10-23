@@ -22,7 +22,7 @@ namespace IP2Country
                         config.ConstructUsing(AbpBootstrapper.Create<IP2CountryModule>);
                         config.WhenStarted(bootstrapper =>
                         {
-                            bootstrapper.PlugInSources.AddFolder(AppDomain.CurrentDomain.BaseDirectory);
+                            //bootstrapper.PlugInSources.AddFolder(AppDomain.CurrentDomain.BaseDirectory);
                             bootstrapper
                                 .IocManager
                                 .IocContainer
